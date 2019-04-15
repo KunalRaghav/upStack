@@ -1,16 +1,21 @@
 package com.krsolutions.upstack;
 
+import android.content.ClipData;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.krsolutions.upstack.adapter.SelectedTagItemAdapter;
+import com.krsolutions.upstack.adapter.TagItemAdapter;
 import com.krsolutions.upstack.api.model.tagResponse;
 import com.krsolutions.upstack.api.service.stackService;
+//import com.krsolutions.upstack.viewmodel.SelectedTagItem;
 import com.krsolutions.upstack.viewmodel.SelectedTagItem;
 import com.krsolutions.upstack.viewmodel.TagItem;
-import com.mikepenz.fastadapter.FastAdapter;
-import com.mikepenz.fastadapter.adapters.ItemAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +37,10 @@ public class UserInterestAcitivity extends AppCompatActivity {
     RecyclerView listViewPopularTags;
     RecyclerView listViewSelectedTags;
     MaterialButton buttonSubmit;
+    ProgressBar progressBar;
+    SelectedTagItem selectedTagItem = new SelectedTagItem();
     String[] tags_string;
-    List<SelectedTagItem> selected_Tags=new ArrayList<>();
+//    List<SelectedTagItem> selected_Tags=new ArrayList<>();
     List<TagItem> popularTagsList=new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,9 +48,16 @@ public class UserInterestAcitivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_interest);
         buttonSubmit=findViewById(R.id.submitButton);
         listViewPopularTags=findViewById(R.id.allTagsListView);
+        progressBar = findViewById(R.id.progress_circular);
         listViewSelectedTags=findViewById(R.id.selectedTagsListView);
         getPopularTags();
-
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: \nSelected Tags: "+selectedTagItem.getSelectedTags().size());
+                Toast.makeText(getApplicationContext(),"Number of Tags Selected: "+selectedTagItem.getSelectedTags().size(),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     void getPopularTags(){
@@ -54,11 +68,9 @@ public class UserInterestAcitivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<tagResponse> call, Response<tagResponse> response) {
                 if(response.isSuccessful()){
-                    ItemAdapter itemAdapter = new ItemAdapter();
                     Log.d(TAG, "onResponse: \n"+response.body().getItems().get(0).getName());
                     for(int i=0;i<response.body().getItems().size();i++){
-                        TagItem tagItem = new TagItem();
-                        tagItem.setName(response.body().getItems().get(i).getName());
+                        TagItem tagItem = new TagItem(response.body().getItems().get(i).getName(),false);
                         popularTagsList.add(tagItem);
                     }
 //                    listViewPopularTags.setAdapter(new ArrayAdapter<String>(getApplicationContext(),R.layout.list_item_tag,R.id.text1,tags_string));
@@ -81,11 +93,14 @@ public class UserInterestAcitivity extends AppCompatActivity {
 //                            listViewSelectedTags.setAdapter(new ArrayAdapter<String>(getApplicationContext(),R.layout.list_item_tag_selected,R.id.selectedTag,selected_Tags));
 //                        }
 //                    })
-                    itemAdapter.add(popularTagsList);
-                    FastAdapter fastAdapter =FastAdapter.with(itemAdapter);
-                    f
-                    listViewPopularTags.setAdapter(fastAdapter);
-                    listViewPopularTags.setLayoutManager(new GridLayoutManager(getApplicationContext(),GridLayoutManager.chooseSize(1,3,2)));
+                    SelectedTagItemAdapter selectedTagItemAdapter = new SelectedTagItemAdapter(selectedTagItem.getSelectedTags());
+                    TagItemAdapter adapter = new TagItemAdapter(popularTagsList,getApplicationContext(),selectedTagItem,selectedTagItemAdapter);
+                    listViewPopularTags.setAdapter(adapter);
+                    listViewPopularTags.setLayoutManager(new GridLayoutManager(getApplicationContext(),GridLayoutManager.chooseSize(1,2,2)));
+                    progressBar.setVisibility(View.GONE);
+
+                    listViewSelectedTags.setAdapter(selectedTagItemAdapter);
+                    listViewSelectedTags.setLayoutManager(new LinearLayoutManager(getApplicationContext(),RecyclerView.HORIZONTAL,false));
                 }else{
                     Toast.makeText(getApplicationContext(),"error occurred",Toast.LENGTH_SHORT).show();
                 }

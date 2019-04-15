@@ -1,64 +1,41 @@
 package com.krsolutions.upstack.viewmodel;
 
-import android.view.View;
-import android.widget.TextView;
+import java.util.ArrayList;
 
-import com.krsolutions.upstack.R;
-import com.mikepenz.fastadapter.FastAdapter;
-import com.mikepenz.fastadapter.items.AbstractItem;
-import com.mikepenz.materialize.holder.StringHolder;
 
-import java.util.List;
+public class TagItem{
+    String name;
+    Boolean checkStatus;
 
-import androidx.annotation.NonNull;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class TagItem extends AbstractItem<TagItem, TagItem.ViewHolder> {
-    public StringHolder name;
-
-    //The unique ID for this type of item
-    @Override
-    public int getType() {
-        return R.id.text1;
+    public String getName() {
+        return name;
     }
 
-    //The layout to be used for this type of item
-    @Override
-    public int getLayoutRes() {
-        return R.layout.list_item_tag;
+    public Boolean isChecked() {
+        return checkStatus;
     }
 
-    @Override
-    public ViewHolder getViewHolder(@NonNull View v) {
-        return new ViewHolder(v);
+    public TagItem(String name, Boolean checkStatus) {
+        this.name = name;
+        this.checkStatus = checkStatus;
     }
 
-    public void setName(String name){
-        this.name = new StringHolder(name);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    /**
-     * our ViewHolder
-     */
-    protected static class ViewHolder extends FastAdapter.ViewHolder<TagItem> {
-        @BindView(R.id.text1)
-        TextView name;
+    public void setChecked(Boolean checkStatus) {
+        this.checkStatus = checkStatus;
+    }
 
-        public ViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+    public TagItem() {
+    }
+
+    public static ArrayList<TagItem> generateTags(int num){
+        ArrayList<TagItem> arrayList = new ArrayList<>();
+        for(int i=0;i<num;i++){
+            arrayList.add(new TagItem("Lang"+i,i%2==0));
         }
-
-        @Override
-        public void bindView(TagItem item, List<Object> payloads) {
-            StringHolder.applyTo(item.name, name);
-        }
-
-        @Override
-        public void unbindView(TagItem item) {
-            name.setText(null);
-        }
+        return arrayList;
     }
 }
-
