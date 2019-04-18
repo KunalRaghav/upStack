@@ -1,4 +1,4 @@
-package com.krsolutions.upstack;
+package com.krsolutions.upstack.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,10 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.krsolutions.upstack.BuildConfig;
+import com.krsolutions.upstack.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +19,7 @@ public class LoginActivity extends AppCompatActivity {
 
     MaterialButton buttonLogin;
     WebView webView;
-    String client_id=BuildConfig.client_id;
+    String client_id= BuildConfig.client_id;
     SharedPreferences sharedPreferences;
     private static final String TAG = "LoginActivity";
     String url ="https://stackexchange.com/oauth/dialog?client_id="+client_id+"&scope=private_info&redirect_uri=https://stackexchange.com/oauth/login_success";
