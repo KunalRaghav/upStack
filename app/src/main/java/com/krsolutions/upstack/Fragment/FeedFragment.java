@@ -1,6 +1,6 @@
 package com.krsolutions.upstack.Fragment;
 
-import android.animation.Animator;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
-import com.krsolutions.upstack.Activity.QuestionFeedActivity;
 import com.krsolutions.upstack.R;
 import com.krsolutions.upstack.adapter.QuestionFeedAdapter;
 import com.krsolutions.upstack.api.model.questionResponse;
@@ -38,6 +37,12 @@ public class FeedFragment extends Fragment {
     MaterialButton SortByButton;
     List<questionResponse.questionJson> Questions;
     ProgressBar progressBar;
+    Context Activity_Context;
+
+    public FeedFragment(Context activity_Context) {
+        Activity_Context = activity_Context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,7 +66,7 @@ public class FeedFragment extends Fragment {
             public void onResponse(Call<questionResponse> call, Response<questionResponse> response) {
                 if(response.isSuccessful()){
                     Questions=response.body().getItems();
-                    adapter=new QuestionFeedAdapter(Questions);
+                    adapter=new QuestionFeedAdapter(Questions,Activity_Context);
                     QuestionFeedRecycler.setAdapter(adapter);
                     progressBar.setVisibility(View.GONE);
                     Log.d(TAG, "onResponse: Questions:\n"+response.body().getItems().size());

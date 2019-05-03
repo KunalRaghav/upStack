@@ -16,7 +16,7 @@ public class QuestionFeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_feed);
         fragHolder = findViewById(R.id.fragment_host);
-        FeedFragment feedFragment = new FeedFragment();
+        FeedFragment feedFragment = new FeedFragment(this);
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_host,feedFragment,"feedFrag").commit();
     }
 }

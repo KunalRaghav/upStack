@@ -3,15 +3,12 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:clickable="true"
-    android:focusable="true"
     android:layout_marginBottom="8dp">
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
     android:paddingHorizontal="16dp"
     android:paddingVertical="16dp"
     android:background="@drawable/feed_item_ripple"
@@ -51,13 +48,12 @@
         app:layout_constraintLeft_toRightOf="@id/feed_item_question_user_text"
         app:layout_constraintTop_toBottomOf="@id/feed_item_question_text"/>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:id="@+id/feed_item_question_view_text"
         tools:text="11"
         android:textSize="12sp"
         android:paddingHorizontal="4dp"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@id/feed_item_question_view_icon"
         app:layout_constraintLeft_toRightOf="@id/feed_item_question_view_icon"
         app:layout_constraintTop_toBottomOf="@id/feed_item_question_text"/>
@@ -69,12 +65,11 @@
         app:layout_constraintLeft_toRightOf="@id/feed_item_question_view_text"
         app:layout_constraintTop_toBottomOf="@id/feed_item_question_text"/>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:id="@+id/feed_item_question_answer_text"
         tools:text="34"
         android:textSize="12sp"
-        android:textAlignment="center"
         android:paddingHorizontal="4dp"
         app:layout_constraintBottom_toBottomOf="@id/feed_item_question_answer_icon"
         app:layout_constraintLeft_toRightOf="@id/feed_item_question_answer_icon"

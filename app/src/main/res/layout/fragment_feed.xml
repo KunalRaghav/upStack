@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="90dp"
+        android:paddingTop="60dp"
         android:paddingHorizontal="4dp">
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"

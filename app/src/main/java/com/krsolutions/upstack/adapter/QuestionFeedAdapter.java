@@ -1,5 +1,8 @@
 package com.krsolutions.upstack.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
 import android.util.Log;
@@ -7,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,10 +26,12 @@ import java.util.List;
 public class QuestionFeedAdapter extends RecyclerView.Adapter<QuestionFeedAdapter.ViewHolder> {
 
     List<questionResponse.questionJson> questions;
+    Context context;
     private static final String TAG = "QuestionFeedAdapter";
 
-    public QuestionFeedAdapter(List<questionResponse.questionJson> questions) {
+    public QuestionFeedAdapter(List<questionResponse.questionJson> questions, Context parent) {
         this.questions = questions;
+        this.context=parent;
     }
 
     @NonNull
@@ -51,11 +57,12 @@ public class QuestionFeedAdapter extends RecyclerView.Adapter<QuestionFeedAdapte
         String d = questionJson.getCreation_date().toString();
         Log.d(TAG, "onBindViewHolder: date "+d);
         Date date =new Date(Long.valueOf(d)*1000);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm");
         holder.questionPoster.setText(questions.get(position).getOwner().getDisplay_name());
         holder.questionPostedDate.setText(dateFormat.format(date));
-        holder.questionAnswerCount.setText(questionJson.getAnswer_count().toString());
-        holder.questionViewCount.setText(questionJson.getView_count().toString());
+        holder.questionAnswerCount.setText(get_ValueString(Integer.valueOf(questionJson.getAnswer_count().toString())));
+        holder.questionViewCount.setText(get_ValueString(Integer.valueOf(questionJson.getView_count().toString())));
+
 
     }
 
@@ -64,19 +71,45 @@ public class QuestionFeedAdapter extends RecyclerView.Adapter<QuestionFeedAdapte
         return questions.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView questionText;
         TextView questionPoster;
         TextView questionPostedDate;
         TextView questionViewCount;
         TextView questionAnswerCount;
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             questionText=itemView.findViewById(R.id.feed_item_question_text);
             questionPoster=itemView.findViewById(R.id.feed_item_question_user_text);
             questionPostedDate=itemView.findViewById(R.id.feed_item_question_date_text);
             questionViewCount=itemView.findViewById(R.id.feed_item_question_view_text);
             questionAnswerCount=itemView.findViewById(R.id.feed_item_question_answer_text);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                int index =getAdapterPosition();
+                String url = questions.get(index).getLink();
+                Intent browser_intent =new Intent(Intent.ACTION_VIEW,Uri.parse(url));
+                context.startActivity(browser_intent);
+                    Log.d(TAG, "onClick: clicked");
+                    Toast.makeText(v.getContext(),"clicked",Toast.LENGTH_LONG).show();
+                }
+            });
+            Log.d(TAG, "ViewHolder: set click listener");
+            
         }
+    }
+    String get_ValueString(int value){
+        String s;
+        if(value>1000000){
+            s=(String.valueOf(value/1000000.0).substring(0,3))+"m";
+        }
+        else if(value>1000){
+            s=(String.valueOf(value/1000.0).substring(0,3))+"k";
+        }else{
+            s=String.valueOf(value);
+        }
+        return s;
     }
 }
