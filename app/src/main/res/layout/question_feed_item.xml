@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clickable="true"
+    android:focusable="true"
+    android:layout_marginBottom="8dp">
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:layout_marginBottom="48dp"
+    android:focusable="true"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="16dp"
+    android:background="@drawable/feed_item_ripple"
     xmlns:tools="http://schemas.android.com/tools">
     <TextView
         android:id="@+id/feed_item_question_text"
@@ -16,10 +25,11 @@
         app:layout_constraintRight_toRightOf="parent"
         tools:text="This is a question?"
         android:paddingBottom="8dp"
+        android:textColor="#000"
         android:textSize="16sp"/>
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:src="@drawable/ic_person_outline_black_24dp"
         android:id="@+id/feed_item_question_user_icon"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -29,12 +39,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/feed_item_question_user_text"
         tools:text="someuser"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@id/feed_item_question_user_icon"
         app:layout_constraintLeft_toRightOf="@id/feed_item_question_user_icon"
         app:layout_constraintTop_toBottomOf="@id/feed_item_question_text"/>
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:src="@drawable/ic_remove_red_eye_black_24dp"
         android:id="@+id/feed_item_question_view_icon"
         app:layout_constraintLeft_toRightOf="@id/feed_item_question_user_text"
@@ -44,14 +55,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/feed_item_question_view_text"
         tools:text="11"
+        android:textSize="12sp"
         android:paddingHorizontal="4dp"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@id/feed_item_question_view_icon"
         app:layout_constraintLeft_toRightOf="@id/feed_item_question_view_icon"
         app:layout_constraintTop_toBottomOf="@id/feed_item_question_text"/>
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:src="@drawable/ic_question_answer_black_24dp"
         android:id="@+id/feed_item_question_answer_icon"
         app:layout_constraintLeft_toRightOf="@id/feed_item_question_view_text"
@@ -61,14 +73,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/feed_item_question_answer_text"
         tools:text="34"
+        android:textSize="12sp"
         android:textAlignment="center"
         android:paddingHorizontal="4dp"
         app:layout_constraintBottom_toBottomOf="@id/feed_item_question_answer_icon"
         app:layout_constraintLeft_toRightOf="@id/feed_item_question_answer_icon"
         app:layout_constraintTop_toBottomOf="@id/feed_item_question_text"/>
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:src="@drawable/ic_insert_invitation_black_24dp"
         android:id="@+id/feed_item_question_date_icon"
         app:layout_constraintRight_toLeftOf="@id/feed_item_question_date_text"
@@ -78,6 +91,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/feed_item_question_date_text"
         tools:text="31/01/2019"
+        android:textSize="12sp"
         android:textAlignment="center"
         android:paddingHorizontal="4dp"
         app:layout_constraintBottom_toBottomOf="@id/feed_item_question_date_icon"
@@ -86,3 +100,4 @@
         app:layout_constraintTop_toBottomOf="@id/feed_item_question_text"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

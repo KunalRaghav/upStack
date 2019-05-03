@@ -16,15 +16,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:id="@+id/main_appbar"
-            android:layout_marginHorizontal="24dp"
-            android:elevation="8dp"
-            android:layout_marginVertical="12dp"
+            android:elevation="4dp"
             android:backgroundTint="#fff"
             app:layout_constraintRight_toRightOf="parent">
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/main_toolbar"
+                app:layout_scrollFlags="exitUntilCollapsed"
                 app:navigationIcon="@drawable/ic_menu_black_24dp">
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>

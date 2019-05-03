@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.krsolutions.upstack.R;
 import com.krsolutions.upstack.api.model.questionResponse;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class QuestionFeedAdapter extends RecyclerView.Adapter<QuestionFeedAdapter.ViewHolder> {
@@ -45,8 +48,12 @@ public class QuestionFeedAdapter extends RecyclerView.Adapter<QuestionFeedAdapte
         Log.d(TAG, "onBindViewHolder: \n"+questions.get(position).getOwner().getDisplay_name()+"\n"+
                 questionJson.getCreation_date().toString()+"\n"+questionJson.getAnswer_count().toString()+"\n"+
                 questionJson.getView_count().toString());
+        String d = questionJson.getCreation_date().toString();
+        Log.d(TAG, "onBindViewHolder: date "+d);
+        Date date =new Date(Long.valueOf(d)*1000);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy hh:mm:ss");
         holder.questionPoster.setText(questions.get(position).getOwner().getDisplay_name());
-        holder.questionPostedDate.setText(questionJson.getCreation_date().toString());
+        holder.questionPostedDate.setText(dateFormat.format(date));
         holder.questionAnswerCount.setText(questionJson.getAnswer_count().toString());
         holder.questionViewCount.setText(questionJson.getView_count().toString());
 

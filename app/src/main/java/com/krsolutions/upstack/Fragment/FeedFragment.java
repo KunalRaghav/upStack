@@ -1,17 +1,22 @@
 package com.krsolutions.upstack.Fragment;
 
+import android.animation.Animator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.krsolutions.upstack.Activity.QuestionFeedActivity;
 import com.krsolutions.upstack.R;
 import com.krsolutions.upstack.adapter.QuestionFeedAdapter;
@@ -30,7 +35,9 @@ public class FeedFragment extends Fragment {
     private static final String TAG = "FeedFragment";
     RecyclerView QuestionFeedRecycler;
     QuestionFeedAdapter adapter;
+    MaterialButton SortByButton;
     List<questionResponse.questionJson> Questions;
+    ProgressBar progressBar;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,8 +48,11 @@ public class FeedFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        progressBar=view.findViewById(R.id.progress_circular);
         QuestionFeedRecycler=view.findViewById(R.id.feed_recycler);
+        SortByButton=view.findViewById(R.id.sort_by_button);
         QuestionFeedRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        QuestionFeedRecycler.setItemAnimator(new DefaultItemAnimator());
         Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.stackexchange.com/").addConverterFactory(GsonConverterFactory.create()).build();
         final stackService stackClient = retrofit.create(stackService.class);
         Call<questionResponse> questionFeed = stackClient.getQuestionFeed();
@@ -53,6 +63,7 @@ public class FeedFragment extends Fragment {
                     Questions=response.body().getItems();
                     adapter=new QuestionFeedAdapter(Questions);
                     QuestionFeedRecycler.setAdapter(adapter);
+                    progressBar.setVisibility(View.GONE);
                     Log.d(TAG, "onResponse: Questions:\n"+response.body().getItems().size());
                     for(int i=0;i<response.body().getItems().size();i++){
                         Log.d(TAG, "onResponse: Question "+(i+1)+": "+response.body().getItems().get(i).getAnswer_count());
@@ -63,6 +74,16 @@ public class FeedFragment extends Fragment {
             @Override
             public void onFailure(Call<questionResponse> call, Throwable t) {
 
+            }
+        });
+        SortByButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(getContext(),SortByButton);
+                popup.getMenu().add("Old");
+                popup.getMenu().add("Popular");
+                popup.getMenu().add("Controversial");
+                popup.show();
             }
         });
     }
